@@ -1,0 +1,20 @@
+{
+  "Version": 1,
+  "Hash": "tfCUTjAWx/ZF8MEp8Uph+HD4mjqG7RFqaHUYI+oqHRY=",
+  "Source": "InventarioTI.API",
+  "BasePath": "_content/InventarioTI.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "InventarioTI.API\\wwwroot",
+      "Source": "InventarioTI.API",
+      "ContentRoot": "C:\\Users\\SISTEMAS-4\\Downloads\\inventario-ti\\inventario-ti\\backend\\InventarioTI.API\\wwwroot\\",
+      "BasePath": "_content/InventarioTI.API",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [],
+  "Endpoints": []
+}
