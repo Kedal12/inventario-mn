@@ -416,3 +416,9 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+# React / Frontend specific
+**/node_modules/
+**/dist/
+**/build/
+.eslintcache
+*.local
