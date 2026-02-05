@@ -61,24 +61,29 @@ public class InventarioDbContext : DbContext
             .HasForeignKey(a => a.EstadoId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // CONFIGURACIÓN PARA SOLUCIONAR EL ERROR DE TRASLADOS
-        modelBuilder.Entity<Traslado>()
-            .HasOne(t => t.Activo)
-            .WithMany(a => a.TrasladosOrigen) // Mapeamos una de las colecciones de Activo
-            .HasForeignKey(t => t.ActivoId)
-            .OnDelete(DeleteBehavior.Cascade);
+        // CONFIGURACIÓN CORREGIDA PARA TRASLADOS
+        modelBuilder.Entity<Traslado>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.NumeroTraslado).IsRequired().HasMaxLength(20);
 
-        modelBuilder.Entity<Traslado>()
-            .HasOne(t => t.AlmacenOrigen)
-            .WithMany()
-            .HasForeignKey(t => t.AlmacenOrigenId)
-            .OnDelete(DeleteBehavior.Restrict);
+            // SOLUCIÓN AL ERROR ActivoId1:
+            // Mapeamos explícitamente la relación principal
+            entity.HasOne(d => d.Activo)
+                .WithMany(p => p.TrasladosOrigen) // Usamos una de las colecciones de Activo.cs
+                .HasForeignKey(d => d.ActivoId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<Traslado>()
-            .HasOne(t => t.AlmacenDestino)
-            .WithMany()
-            .HasForeignKey(t => t.AlmacenDestinoId)
-            .OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(d => d.AlmacenOrigen)
+                .WithMany()
+                .HasForeignKey(d => d.AlmacenOrigenId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(d => d.AlmacenDestino)
+                .WithMany()
+                .HasForeignKey(d => d.AlmacenDestinoId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
 
         // Seed Data - Estados
         modelBuilder.Entity<EstadoActivo>().HasData(

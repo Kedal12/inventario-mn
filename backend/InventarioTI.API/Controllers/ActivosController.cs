@@ -156,4 +156,15 @@ public class ActivosController : ControllerBase
         var etiquetas = await _zplService.GenerarEtiquetasZpl(request.CodigosActivo, baseUrl);
         return Ok(etiquetas);
     }
+    [Authorize(Roles = "Administrador")]
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> EliminarActivo(int id)
+    {
+        var result = await _activoService.EliminarActivo(id);
+
+        if (!result)
+            return NotFound(new { message = "Activo no encontrado" });
+
+        return Ok(new { message = "Activo eliminado correctamente" });
+    }
 }

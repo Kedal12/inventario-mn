@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using InventarioTI.API.Data;
 using InventarioTI.API.DTOs;
+using System.Text;
 
 namespace InventarioTI.API.Services;
 
@@ -8,6 +9,7 @@ public interface IZplService
 {
     Task<List<EtiquetaZplResponse>> GenerarEtiquetasZpl(List<string> codigosActivo, string baseUrl);
     Task<string> GenerarEtiquetaIndividual(string codigoActivo, string baseUrl);
+    // VOLVER A AGREGAR ESTA LÍNEA PARA ELIMINAR EL ERROR CS1061
     Task<string> GenerarComprobanteTraslado(int trasladoId);
 }
 
@@ -23,82 +25,95 @@ public class ZplService : IZplService
     public async Task<List<EtiquetaZplResponse>> GenerarEtiquetasZpl(List<string> codigosActivo, string baseUrl)
     {
         var respuestas = new List<EtiquetaZplResponse>();
-        foreach (var codigo in codigosActivo)
+        for (int i = 0; i < codigosActivo.Count; i += 3)
         {
-            var zpl = await GenerarEtiquetaIndividual(codigo, baseUrl);
-            respuestas.Add(new EtiquetaZplResponse(codigo, zpl));
+            var loteFila = codigosActivo.Skip(i).Take(3).ToList();
+            var zplFila = await GenerarFilaTripleZpl(loteFila, baseUrl);
+            foreach (var codigo in loteFila)
+            {
+                respuestas.Add(new EtiquetaZplResponse(codigo, zplFila));
+            }
         }
         return respuestas;
     }
 
-    public async Task<string> GenerarEtiquetaIndividual(string codigoActivo, string baseUrl)
+    private async Task<string> GenerarFilaTripleZpl(List<string> codigos, string baseUrl)
     {
-        var activo = await _context.Activos
-            .Include(a => a.Almacen)
-            .Include(a => a.TipoActivo)
-            .FirstOrDefaultAsync(a => a.CodigoInterno == codigoActivo);
+        var sb = new StringBuilder();
+        sb.AppendLine("^XA^PW788^LL200^LH0,0");
+        int[] columnasX = { 10, 272, 535 };
 
-        if (activo == null)
-            throw new ArgumentException($"Activo {codigoActivo} no encontrado");
+        for (int j = 0; j < codigos.Count; j++)
+        {
+            var activo = await _context.Activos
+                .Include(a => a.Almacen)
+                .FirstOrDefaultAsync(a => a.CodigoInterno == codigos[j]);
 
-        // Cambio de nomenclatura para la etiqueta (ICG -> MN)
-        var codigoMN = activo.CodigoInterno.Replace("ICG-", "MN-");
-        var qrUrl = $"{baseUrl}/activo/{codigoMN}";
+            if (activo == null) continue;
 
-        var descripcion = $"{activo.Marca} {activo.Modelo}";
-        if (descripcion.Length > 30) descripcion = descripcion.Substring(0, 27) + "...";
+            int x = columnasX[j];
+            var codigoMN = activo.CodigoInterno.Replace("ICG-", "MN-");
+            var qrUrl = $"{baseUrl}/activo/{codigoMN}";
+            var marcaModelo = $"{activo.Marca} {activo.Modelo}";
+            if (marcaModelo.Length > 16) marcaModelo = marcaModelo.Substring(0, 14) + "..";
 
-        var sede = activo.Almacen.Nombre;
-        if (sede.Length > 25) sede = sede.Substring(0, 22) + "...";
-
-        var zpl = new System.Text.StringBuilder();
-        zpl.AppendLine("^XA");
-        zpl.AppendLine("^PW787"); // Ancho 98.5mm
-        zpl.AppendLine("^LL200"); // Alto 25mm
-        zpl.AppendLine("^LH0,0");
-
-        // QR a la izquierda (Ajustado para etiqueta amarilla)
-        zpl.AppendLine("^FO30,30^BQN,2,3^FDQA," + qrUrl + "^FS");
-
-        // Texto informativo a la derecha
-        zpl.AppendLine("^FO200,30^A0N,25,25^FDACTIVO FIJO TI MN^FS");
-        zpl.AppendLine($"^FO200,65^A0N,35,35^FD{codigoMN}^FS");
-        zpl.AppendLine($"^FO200,105^A0N,22,22^FD{descripcion}^FS");
-        zpl.AppendLine($"^FO200,135^A0N,20,20^FD{sede}^FS");
-
-        zpl.AppendLine("^XZ");
-        return zpl.ToString();
+            sb.AppendLine($"^FO{x},40^BQN,2,2^FDQA,{qrUrl}^FS");
+            sb.AppendLine($"^FO{x + 95},30^A0N,18,18^FB150,1,0,L^FDMN-TI^FS");
+            sb.AppendLine($"^FO{x + 95},55^A0N,20,20^FB150,1,0,L^FD{codigoMN}^FS");
+            sb.AppendLine($"^FO{x + 95},85^A0N,15,15^FB150,2,0,L^FD{marcaModelo}^FS");
+            sb.AppendLine($"^FO{x + 95},120^A0N,13,13^FB150,1,0,L^FD{activo.Almacen.Nombre.ToUpper()}^FS");
+        }
+        sb.AppendLine("^XZ");
+        return sb.ToString();
     }
 
+    public async Task<string> GenerarEtiquetaIndividual(string codigoActivo, string baseUrl)
+    {
+        return await GenerarFilaTripleZpl(new List<string> { codigoActivo }, baseUrl);
+    }
+
+    // AGREGAR EL MÉTODO FALTANTE PARA TRASLADOS
     public async Task<string> GenerarComprobanteTraslado(int trasladoId)
     {
         var traslado = await _context.Traslados
             .Include(t => t.Activo)
-                .ThenInclude(a => a.TipoActivo)
             .Include(t => t.AlmacenOrigen)
             .Include(t => t.AlmacenDestino)
             .FirstOrDefaultAsync(t => t.Id == trasladoId);
 
-        if (traslado == null)
-            throw new ArgumentException("Traslado no encontrado");
+        if (traslado == null) throw new ArgumentException("Traslado no encontrado");
 
-        var codigoMN = traslado.Activo.CodigoInterno.Replace("ICG-", "MN-");
+        var sb = new StringBuilder();
+        sb.AppendLine("^XA^PW788^LL200");
+        sb.AppendLine($"^FO20,30^A0N,30,30^FDCOMPROBANTE TRASLADO: {traslado.NumeroTraslado}^FS");
+        sb.AppendLine($"^FO20,70^A0N,20,20^FDORIGEN: {traslado.AlmacenOrigen.Nombre}^FS");
+        sb.AppendLine($"^FO20,100^A0N,20,20^FDDESTINO: {traslado.AlmacenDestino.Nombre}^FS");
+        sb.AppendLine($"^FO20,130^A0N,18,18^FDFECHA: {traslado.FechaTraslado:dd/MM/yyyy}^FS");
+        sb.AppendLine("^XZ");
+        return sb.ToString();
+    }
 
-        var zpl = new System.Text.StringBuilder();
-        zpl.AppendLine("^XA");
-        zpl.AppendLine("^PW787^LL200^LH0,0");
+    public string GenerarEtiquetaMantenimientoZpl(DatosEtiquetaMtto data, string baseUrl)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("^XA^PW788^LL200^LH0,0"); // Formato triple fila
 
-        zpl.AppendLine("^FO10,15^A0N,28,28^FDTRASLADO: " + traslado.NumeroTraslado + "^FS");
-        zpl.AppendLine($"^FO10,50^A0N,24,24^FD{codigoMN}^FS");
+        int x = 10; // Posición de la primera etiqueta
+        var codigoMN = data.CodigoInterno.Replace("ICG-", "MN-");
+        var qrUrl = $"{baseUrl}/activo/{codigoMN}";
 
-        var ruta = $"{traslado.AlmacenOrigen.Nombre} > {traslado.AlmacenDestino.Nombre}";
-        if (ruta.Length > 45) ruta = ruta.Substring(0, 42) + "...";
+        // QR en la misma posición que activos TI
+        sb.AppendLine($"^FO{x},40^BQN,2,2^FDQA,{qrUrl}^FS");
 
-        zpl.AppendLine($"^FO10,85^A0N,20,20^FD{ruta}^FS");
-        zpl.AppendLine($"^FO10,120^A0N,18,18^FDFECHA: {traslado.FechaTraslado:dd/MM/yyyy}^FS");
-        zpl.AppendLine($"^FO10,150^A0N,18,18^FDPOR: {traslado.NombreUsuario}^FS");
+        // Textos alineados como en tus etiquetas actuales
+        sb.AppendLine($"^FO{x + 95},30^A0N,18,18^FB150,1,0,L^FDMTTO #{data.NumeroMantenimiento}^FS");
+        sb.AppendLine($"^FO{x + 95},55^A0N,20,20^FB150,1,0,L^FD{codigoMN}^FS");
 
-        zpl.AppendLine("^XZ");
-        return zpl.ToString();
+        // Información específica de mantenimiento en fuente más pequeña
+        sb.AppendLine($"^FO{x + 95},85^A0N,14,14^FB150,2,0,L^FDFec: {data.FechaMantenimiento:dd/MM/yy}^FS");
+        sb.AppendLine($"^FO{x + 95},110^A0N,13,13^FB150,1,0,L^FDProx: {data.FechaProximoMtto:dd/MM/yy}^FS");
+
+        sb.AppendLine("^XZ");
+        return sb.ToString();
     }
 }

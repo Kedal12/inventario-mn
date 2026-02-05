@@ -1,0 +1,33 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\SISTEMAS-4\\Documents\\inventario-ti\\backend\\InventarioTI.API\\wwwroot\\uploads\\activos\\1b331a50-eb3b-4704-b0bd-d1ab71bdccbd.jpg",
+      "PackagePath": "staticwebassets\\uploads\\activos\\1b331a50-eb3b-4704-b0bd-d1ab71bdccbd.jpg"
+    },
+    {
+      "Id": "C:\\Users\\SISTEMAS-4\\Documents\\inventario-ti\\backend\\InventarioTI.API\\wwwroot\\uploads\\activos\\9650dddb-2e0f-4f3f-938e-6597fce21894.png",
+      "PackagePath": "staticwebassets\\uploads\\activos\\9650dddb-2e0f-4f3f-938e-6597fce21894.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.InventarioTI.API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.InventarioTI.API.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.InventarioTI.API.props",
+      "PackagePath": "build\\InventarioTI.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.InventarioTI.API.props",
+      "PackagePath": "buildMultiTargeting\\InventarioTI.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.InventarioTI.API.props",
+      "PackagePath": "buildTransitive\\InventarioTI.API.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

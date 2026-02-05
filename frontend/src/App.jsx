@@ -14,6 +14,11 @@ import Tipos from './pages/Tipos';
 import Usuarios from './pages/Usuarios';
 import Reportes from './pages/Reportes';
 import EditarActivo from './pages/EditarActivo';
+import Importacion from './pages/Importacion';
+import Inventario from './pages/Inventario';
+import EscaneoExcel from './pages/EscaneoExcel';
+import Mantenimientos from './pages/Mantenimientos'; // Nueva importación
+import './styles/responsive.css';
 
 function PrivateRoute({ children, adminOnly = false }) {
   const { isAuthenticated, loading, isAdmin } = useAuth();
@@ -21,7 +26,7 @@ function PrivateRoute({ children, adminOnly = false }) {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-icg-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-mn-600"></div>
       </div>
     );
   }
@@ -59,6 +64,19 @@ function App() {
             </PrivateRoute>
           } />
           <Route path="activos/:id" element={<ActivoDetalle />} />
+          <Route path="activos/editar/:id" element={
+            <PrivateRoute adminOnly>
+              <EditarActivo />
+            </PrivateRoute>
+          } />
+          
+          {/* Nueva Ruta de Mantenimientos */}
+          <Route path="mantenimientos" element={
+            <PrivateRoute adminOnly>
+              <Mantenimientos />
+            </PrivateRoute>
+          } />
+
           <Route path="traslados" element={
             <PrivateRoute adminOnly>
               <Traslados />
@@ -67,6 +85,21 @@ function App() {
           <Route path="traslados/nuevo" element={
             <PrivateRoute adminOnly>
               <NuevoTraslado />
+            </PrivateRoute>
+          } />
+          <Route path="importacion" element={
+            <PrivateRoute adminOnly>
+              <Importacion />
+            </PrivateRoute>
+          } />
+          <Route path="inventario" element={
+            <PrivateRoute adminOnly>
+              <Inventario />
+            </PrivateRoute>
+          } />
+          <Route path="escaneo-excel" element={
+            <PrivateRoute adminOnly>
+              <EscaneoExcel />
             </PrivateRoute>
           } />
           <Route path="almacenes" element={
@@ -83,12 +116,6 @@ function App() {
             <PrivateRoute adminOnly>
               <Usuarios />
             </PrivateRoute>
-
-          } />
-          <Route path="activos/editar/:id" element={
-          <PrivateRoute adminOnly>
-          <EditarActivo />
-          </PrivateRoute>
           } />
           <Route path="reportes" element={<Reportes />} />
         </Route>

@@ -15,6 +15,7 @@ public interface IActivoService
     Task<ActivoDto?> ActualizarActivo(int id, ActualizarActivoRequest request, int usuarioId, string nombreUsuario);
     Task<bool> DarBajaActivo(int id, DarBajaActivoRequest request, int usuarioId, string nombreUsuario);
     Task<bool> ReactivarActivo(int id, int usuarioId, string nombreUsuario);
+    Task<bool> EliminarActivo(int id);
     Task<List<string>> ObtenerMarcas();
     Task<string> GenerarCodigoInterno(int tipoActivoId);
 }
@@ -189,7 +190,6 @@ public class ActivoService : IActivoService
             .Include(a => a.TipoActivo)
             .Include(a => a.Almacen)
             .Include(a => a.Estado)
-            // Buscamos activos que terminen con ese número de serie
             .FirstOrDefaultAsync(a => a.CodigoInterno.EndsWith(parteNumerica));
 
         if (activo == null) return null;
@@ -222,12 +222,29 @@ public class ActivoService : IActivoService
             Descripcion = request.Descripcion,
             TipoActivoId = request.TipoActivoId,
             AlmacenId = request.AlmacenId,
-            EstadoId = request.EstadoId ?? 1, // Disponible por defecto
+            EstadoId = request.EstadoId ?? 1,
             FechaIngreso = DateTime.Now,
             FechaUltimoInventario = DateTime.Now,
             Observaciones = request.Observaciones,
             UsuarioRegistroId = usuarioId
         };
+
+        // GUARDAR FOTO SI EXISTE
+        if (request.Foto != null)
+        {
+            string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "activos");
+            if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+
+            string fileName = $"{Guid.NewGuid()}{Path.GetExtension(request.Foto.FileName)}";
+            string filePath = Path.Combine(folderPath, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await request.Foto.CopyToAsync(stream);
+            }
+
+            activo.FotoUrl = $"/uploads/activos/{fileName}";
+        }
 
         _context.Activos.Add(activo);
         await _context.SaveChangesAsync();
@@ -315,6 +332,26 @@ public class ActivoService : IActivoService
             await _historialService.RegistrarCambio(id, "Edicion", "Observaciones",
                 activo.Observaciones, request.Observaciones, null, usuarioId, nombreUsuario);
             activo.Observaciones = request.Observaciones;
+        }
+        // LÓGICA PARA LA FOTO
+        if (request.Foto != null)
+        {
+            // 1. Definir la ruta de la carpeta (wwwroot/uploads/activos)
+            string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "activos");
+            if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+
+            // 2. Crear un nombre único para el archivo para evitar sobrescritura
+            string fileName = $"{Guid.NewGuid()}{Path.GetExtension(request.Foto.FileName)}";
+            string filePath = Path.Combine(folderPath, fileName);
+
+            // 3. Guardar el archivo físico en el servidor
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await request.Foto.CopyToAsync(stream);
+            }
+
+            // 4. Guardar la URL RELATIVA en la base de datos
+            activo.FotoUrl = $"/uploads/activos/{fileName}";
         }
 
         await _context.SaveChangesAsync();
@@ -406,6 +443,44 @@ public class ActivoService : IActivoService
 
         // Retornamos con el nuevo prefijo MN
         return $"MN-{refNum}-{consecutivo:D5}";
+    }
+
+    public async Task<bool> EliminarActivo(int id)
+    {
+        var activo = await _context.Activos.FindAsync(id);
+
+        if (activo == null)
+            return false;
+
+        // Eliminar traslados asociados
+        var traslados = await _context.Traslados.Where(t => t.ActivoId == id).ToListAsync();
+        if (traslados.Any())
+        {
+            _context.Traslados.RemoveRange(traslados);
+        }
+
+        // Eliminar historial asociado
+        var historial = await _context.HistorialActivos.Where(h => h.ActivoId == id).ToListAsync();
+        if (historial.Any())
+        {
+            _context.HistorialActivos.RemoveRange(historial);
+        }
+
+        // Eliminar foto física si existe
+        if (!string.IsNullOrEmpty(activo.FotoUrl))
+        {
+            var rutaCompleta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", activo.FotoUrl.TrimStart('/'));
+            if (File.Exists(rutaCompleta))
+            {
+                File.Delete(rutaCompleta);
+            }
+        }
+
+        // Eliminar el activo
+        _context.Activos.Remove(activo);
+        await _context.SaveChangesAsync();
+
+        return true;
     }
 
     private static ActivoDto MapToDto(Activo activo)

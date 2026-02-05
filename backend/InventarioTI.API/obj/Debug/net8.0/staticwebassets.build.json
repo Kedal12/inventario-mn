@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "tfCUTjAWx/ZF8MEp8Uph+HD4mjqG7RFqaHUYI+oqHRY=",
+  "Hash": "LM5xinFjiPU7v+2FwIffVrkQrtsCYUTwhoCWfHJT5WU=",
   "Source": "InventarioTI.API",
   "BasePath": "_content/InventarioTI.API",
   "Mode": "Default",
@@ -10,11 +10,219 @@
     {
       "Name": "InventarioTI.API\\wwwroot",
       "Source": "InventarioTI.API",
-      "ContentRoot": "C:\\Users\\SISTEMAS-4\\Downloads\\inventario-ti\\inventario-ti\\backend\\InventarioTI.API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\SISTEMAS-4\\Documents\\inventario-ti\\backend\\InventarioTI.API\\wwwroot\\",
       "BasePath": "_content/InventarioTI.API",
       "Pattern": "**"
     }
   ],
-  "Assets": [],
-  "Endpoints": []
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\SISTEMAS-4\\Documents\\inventario-ti\\backend\\InventarioTI.API\\wwwroot\\uploads\\activos\\1b331a50-eb3b-4704-b0bd-d1ab71bdccbd.jpg",
+      "SourceId": "InventarioTI.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SISTEMAS-4\\Documents\\inventario-ti\\backend\\InventarioTI.API\\wwwroot\\",
+      "BasePath": "_content/InventarioTI.API",
+      "RelativePath": "uploads/activos/1b331a50-eb3b-4704-b0bd-d1ab71bdccbd#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "gw5g3udvic",
+      "Integrity": "INMYJTHNUQb2AZ0uYaFxy88PH2XV0baA8PMIrYECzQ8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\activos\\1b331a50-eb3b-4704-b0bd-d1ab71bdccbd.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\SISTEMAS-4\\Documents\\inventario-ti\\backend\\InventarioTI.API\\wwwroot\\uploads\\activos\\9650dddb-2e0f-4f3f-938e-6597fce21894.png",
+      "SourceId": "InventarioTI.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SISTEMAS-4\\Documents\\inventario-ti\\backend\\InventarioTI.API\\wwwroot\\",
+      "BasePath": "_content/InventarioTI.API",
+      "RelativePath": "uploads/activos/9650dddb-2e0f-4f3f-938e-6597fce21894#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "n6q9lkj93z",
+      "Integrity": "MZ6MVEGDccvB7C6J1OGGpL/h0Q2JBYzNywmZ6Oh4OiA=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\activos\\9650dddb-2e0f-4f3f-938e-6597fce21894.png"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "uploads/activos/1b331a50-eb3b-4704-b0bd-d1ab71bdccbd.gw5g3udvic.jpg",
+      "AssetFile": "C:\\Users\\SISTEMAS-4\\Documents\\inventario-ti\\backend\\InventarioTI.API\\wwwroot\\uploads\\activos\\1b331a50-eb3b-4704-b0bd-d1ab71bdccbd.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "44957"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"INMYJTHNUQb2AZ0uYaFxy88PH2XV0baA8PMIrYECzQ8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 28 Jan 2026 02:34:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "gw5g3udvic"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/activos/1b331a50-eb3b-4704-b0bd-d1ab71bdccbd.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-INMYJTHNUQb2AZ0uYaFxy88PH2XV0baA8PMIrYECzQ8="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/activos/1b331a50-eb3b-4704-b0bd-d1ab71bdccbd.jpg",
+      "AssetFile": "C:\\Users\\SISTEMAS-4\\Documents\\inventario-ti\\backend\\InventarioTI.API\\wwwroot\\uploads\\activos\\1b331a50-eb3b-4704-b0bd-d1ab71bdccbd.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "44957"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"INMYJTHNUQb2AZ0uYaFxy88PH2XV0baA8PMIrYECzQ8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 28 Jan 2026 02:34:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-INMYJTHNUQb2AZ0uYaFxy88PH2XV0baA8PMIrYECzQ8="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/activos/9650dddb-2e0f-4f3f-938e-6597fce21894.n6q9lkj93z.png",
+      "AssetFile": "C:\\Users\\SISTEMAS-4\\Documents\\inventario-ti\\backend\\InventarioTI.API\\wwwroot\\uploads\\activos\\9650dddb-2e0f-4f3f-938e-6597fce21894.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "181080"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MZ6MVEGDccvB7C6J1OGGpL/h0Q2JBYzNywmZ6Oh4OiA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 29 Jan 2026 15:25:51 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "n6q9lkj93z"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/activos/9650dddb-2e0f-4f3f-938e-6597fce21894.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-MZ6MVEGDccvB7C6J1OGGpL/h0Q2JBYzNywmZ6Oh4OiA="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/activos/9650dddb-2e0f-4f3f-938e-6597fce21894.png",
+      "AssetFile": "C:\\Users\\SISTEMAS-4\\Documents\\inventario-ti\\backend\\InventarioTI.API\\wwwroot\\uploads\\activos\\9650dddb-2e0f-4f3f-938e-6597fce21894.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "181080"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MZ6MVEGDccvB7C6J1OGGpL/h0Q2JBYzNywmZ6Oh4OiA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 29 Jan 2026 15:25:51 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-MZ6MVEGDccvB7C6J1OGGpL/h0Q2JBYzNywmZ6Oh4OiA="
+        }
+      ]
+    }
+  ]
 }

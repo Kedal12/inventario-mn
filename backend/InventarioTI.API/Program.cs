@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Base de datos SQL Server
 builder.Services.AddDbContext<InventarioDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
         ?? "Server=localhost;Database=InventarioTI_ICG;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 // Autenticación JWT
@@ -48,6 +48,9 @@ builder.Services.AddScoped<IActivoService, ActivoService>();
 builder.Services.AddScoped<ITrasladoService, TrasladoService>();
 builder.Services.AddScoped<IReporteService, ReporteService>();
 builder.Services.AddScoped<IZplService, ZplService>();
+builder.Services.AddScoped<IImportacionService, ImportacionService>();
+builder.Services.AddScoped<IConciliacionService, ConciliacionService>();
+builder.Services.AddScoped<IMantenimientoService, MantenimientoService>();
 
 builder.Services.AddControllers();
 
