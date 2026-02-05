@@ -1,0 +1,40 @@
+﻿<Project>
+  <ItemGroup>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\activos\1b331a50-eb3b-4704-b0bd-d1ab71bdccbd.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>InventarioTI.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/InventarioTI.API</BasePath>
+      <RelativePath>uploads/activos/1b331a50-eb3b-4704-b0bd-d1ab71bdccbd.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>gw5g3udvic</Fingerprint>
+      <Integrity>INMYJTHNUQb2AZ0uYaFxy88PH2XV0baA8PMIrYECzQ8=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\activos\1b331a50-eb3b-4704-b0bd-d1ab71bdccbd.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\activos\9650dddb-2e0f-4f3f-938e-6597fce21894.png'))">
+      <SourceType>Package</SourceType>
+      <SourceId>InventarioTI.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/InventarioTI.API</BasePath>
+      <RelativePath>uploads/activos/9650dddb-2e0f-4f3f-938e-6597fce21894.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>n6q9lkj93z</Fingerprint>
+      <Integrity>MZ6MVEGDccvB7C6J1OGGpL/h0Q2JBYzNywmZ6Oh4OiA=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\activos\9650dddb-2e0f-4f3f-938e-6597fce21894.png'))</OriginalItemSpec>
+    </StaticWebAsset>
+  </ItemGroup>
+</Project>
